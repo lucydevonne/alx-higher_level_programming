@@ -10,13 +10,18 @@ if __name__ == '__main__':
     """ Add the State object "Louisiana" to the database hbtn_0e_6_usa """
 
     # read mysql username, password and database name from arguments
-    db_url = "mysql+mysqldb://{}:{}@localhost:3306/{}".format(
-        argv[1], argv[2], argv[3])    
+    mysql_user = sys.argv[1]
+    mysql_pwd = sys.argv[2]
+    mysql_db = sys.argv[3]   
 
     # create a connection to the database
-    engine = create_engine(db_url)
+   engine = create_engine('mysql+mysqldb://{}:{}@localhost:3306/{}'.
+                           format(mysql_user, mysql_pwd, mysql_db),
+                           pool_pre_ping=True)
+
+    Base.metadata.create_all(engine)
+
     Session = sessionmaker(bind=engine)
-    
     session = Session()
 
     new_state = State(name="Louisiana")
