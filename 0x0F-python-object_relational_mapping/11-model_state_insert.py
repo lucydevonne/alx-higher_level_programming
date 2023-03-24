@@ -22,15 +22,8 @@ if __name__ == '__main__':
 
     # create a new State object
     louisiana = State(name="Louisiana")
-    
-     # add the new State object to the session
     session.add(louisiana)
-    
-    # commit the transaction
     session.commit()
     
-     # print the new state's id
     print(louisiana.id)
-
-    # close the session
     session.close()
