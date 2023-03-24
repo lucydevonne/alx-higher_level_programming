@@ -1,49 +1,29 @@
 #!/usr/bin/python3
-""" Adds the State object "Louisiana" to the database hbtn_0e_6_usa """
 
-import sys
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from model_state import Base, State
+"""
+Adds a new State object (Louisiana) to the database hbtn_0e_6_usa
+   takes arguments: mysql-username, mysql-password, database-name
+"""
 
-if __name__ == '__main__':
-    """ Add the State object "Louisiana" to the database hbtn_0e_6_usa """
+if __name__ == "__main__":
+    import sys
+    from sqlalchemy import (create_engine)
+    from sqlalchemy.orm import sessionmaker
+    from model_state import Base, State
 
-    # read mysql username, password and database name from arguments
-    db_url = "mysql+mysqldb://{}:{}@localhost:3306/{}".format(
-        argv[1], argv[2], argv[3])    
+    engine =\
+        create_engine(f'mysql+mysqldb://{sys.argv[1]}:{sys.argv[2]}@localhost/{sys.argv[3]}', pool_pre_ping=True)
+    Base.metadata.create_all(engine)
 
-    # create a connection to the database
-    engine = create_engine(db_url)
-
-    # create a Session
     Session = sessionmaker(bind=engine)
     session = Session()
 
-   #!/usr/bin/python3
-""" Adds the State object "Louisiana" to the database hbtn_0e_6_usa """
-
-import sys
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from model_state import Base, State
-
-if __name__ == '__main__':
-    """ Add the State object "Louisiana" to the database hbtn_0e_6_usa """
-
-    # read mysql username, password and database name from arguments
-    db_url = "mysql+mysqldb://{}:{}@localhost:3306/{}".format(
-        argv[1], argv[2], argv[3])    
-
-    # create a connection to the database
-    engine = create_engine(db_url)
-    Session = sessionmaker(bind=engine)
-    
-    session = Session()
-
-    new_state = State(name="Louisiana")
-    session.add(new_state)
+    louis = State(name='Louisiana')
+    session.add(louis)
     session.commit()
 
-    print('{0}'.format(new_state.id))
-    session.close()
+    state = session.query(State).filter(State.name == 'Louisiana').first()
+    if state:
+        print(f'{state.id}')
+    else:
+        print('Not found')
