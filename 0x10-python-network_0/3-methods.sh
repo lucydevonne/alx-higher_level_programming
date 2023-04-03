@@ -1,3 +1,3 @@
 #!/bin/bash
 #takes in url, display http methods
-curl -I -sX OPTIONS "$1"
+curl -I -X OPTIONS "$1"
