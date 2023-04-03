@@ -1,3 +1,1 @@
-#!/bin/bash
-#must contain the complexity of your algorithm
-O(log(n)), O(n), O(nlog(n))
+O(log(n))
